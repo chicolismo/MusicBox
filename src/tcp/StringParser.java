@@ -108,9 +108,8 @@ public class StringParser {
                 music.nextInstrument();
                 break;
 
-            // TODO: Mudar o instrumento e testar.
             case '\r':
-                instruction = " ";
+                music.nextInstrument();
                 break;
 
             case '!':
@@ -129,7 +128,6 @@ public class StringParser {
                 music.decrementAttack(Attack.BIG_INCREMENT);
                 break;
 
-            // TODO: Implementar a duração
             case '\"':
                 music.incrementDuration();
                 break;

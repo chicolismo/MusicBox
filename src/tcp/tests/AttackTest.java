@@ -39,8 +39,10 @@ public class AttackTest {
     public void testToString() throws Exception {
         a.set(8);
         assertEquals("a8", a.toString());
-        a.set(0);
+        a.set(64);
         assertEquals("", a.toString());
+        a.set(0);
+        assertEquals("a0", a.toString());
     }
 
     @Test

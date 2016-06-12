@@ -5,7 +5,7 @@ public class Attack {
     public static final int BIG_INCREMENT = 50;
     public static final int MIN_ATTACK = 0;
     public static final int MAX_ATTACK = 127;
-    public static int DEFAULT_ATTACK = 0;
+    public static int DEFAULT_ATTACK = 64;
     private int value;
 
     public Attack() {
@@ -50,7 +50,7 @@ public class Attack {
 
     @Override
     public String toString() {
-        if (value > MIN_ATTACK) {
+        if (value != DEFAULT_ATTACK) {
             return String.format("a%d", get());
         } else {
             return "";
