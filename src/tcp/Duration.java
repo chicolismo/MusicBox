@@ -4,6 +4,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+/**
+ * Objeto que controla a duração das notas da música.
+ */
 public class Duration {
     public static final List<String> OPTIONS;
     public static final HashSet<String> VALID_OPTIONS;

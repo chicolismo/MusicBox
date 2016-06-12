@@ -3,6 +3,10 @@ package tcp;
 import java.util.Arrays;
 import java.util.HashSet;
 
+/**
+ * Retorna um objeto Music, responsável por controlar a formação das notas da música,
+ * e que delega parte da funcionalidade para objetos de outras classe, que são seus campos.
+ */
 public class Music {
     private static final String[] VALID_NOTES_ARRAY = new String[] {
             "A0", "A#0", "B0", "C1", "C#1", "D1", "D#1", "E1", "F1", "F#1", "G1", "G#1",
@@ -64,6 +68,14 @@ public class Music {
         return duration;
     }
 
+    /**
+     * Dada uma string de nota A, B, C, D, E, F ou G, produz uma nota válida para o JFugue.
+     * <p>
+     * <p>
+     * Caso a combinação de nota com a oitava atual seja inválida, retorna uma string vazia.
+     *
+     * @param str A string representando a nota a ser criada.
+     */
     public String makeNote(String str) {
         String result = null;
 
@@ -86,6 +98,16 @@ public class Music {
         return validNotes.contains(note);
     }
 
+    /**
+     * Acrescenta modificadores extras além das notas musicais, como mudança do tempo, do instrumento,
+     * ou a inclusão de um sustenido à nota atual.
+     *
+     * <p>
+     * Também inclui a duração e o ataque atuais, caso haja alteração.
+     *
+     * @param str A string que representa a nota atual, para ser modificada se necessário
+     * @return A nota acrescida de possíveis alterações, pronta para ser executada.
+     */
     private String addModifiers(String str) {
         if (tempo.isChanged()) {
             tempo.setChanged(false);
