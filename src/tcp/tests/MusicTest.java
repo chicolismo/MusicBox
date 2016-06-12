@@ -65,7 +65,7 @@ public class MusicTest {
         o.set(5);
         a.set(50);
         assertEquals("T300 A5a50", music.makeNote("A"));
-        a.set(0);
+        a.set(Attack.DEFAULT_ATTACK);
         o.set(0);
         t.set(200);
         assertEquals("T200 A0", music.makeNote("A"));

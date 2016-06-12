@@ -1,5 +1,13 @@
 package tcp;
 
+/**
+ * Retorna um objeto do tipo Instrument, que mantém a informação dos instrumentos disponíveis, bem como do instrumento
+ * atual da música.
+ * <p>
+ * <p>
+ * Também é responsável pela mudança do instrumento.
+ * </p>
+ */
 public class Instrument {
     public static final int DEFAULT_ID;
     public static final int NUMBER_OF_INSTRUMENTS;
@@ -24,18 +32,18 @@ public class Instrument {
         return currentInstrument;
     }
 
-    public void setInstrument(int index) {
-        if (index != currentInstrument) {
-            currentInstrument = index;
-            setChanged(true);
-        }
-    }
-
     public void setInstrument(Id id) {
         int ordinal = id.ordinal();
         if (ordinal != currentInstrument) {
             setChanged(true);
             currentInstrument = ordinal;
+        }
+    }
+
+    public void setInstrument(int index) {
+        if (index != currentInstrument) {
+            currentInstrument = index;
+            setChanged(true);
         }
     }
 

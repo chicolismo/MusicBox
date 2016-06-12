@@ -1,5 +1,8 @@
 package tcp;
 
+/**
+ * Objecto que controla a oitava atual da música
+ */
 public class Octave {
     public static final int DEFAULT_OCTAVE = 5;
     public static final int MAX_OCTAVE = 8;

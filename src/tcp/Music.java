@@ -70,7 +70,7 @@ public class Music {
 
     /**
      * Dada uma string de nota A, B, C, D, E, F ou G, produz uma nota válida para o JFugue.
-     * <p>
+     *
      * <p>
      * Caso a combinação de nota com a oitava atual seja inválida, retorna uma string vazia.
      *

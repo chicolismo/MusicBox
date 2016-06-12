@@ -1,4 +1,4 @@
-# Especificação
+# Documentação
 
 ## Lista de requisitos
 
@@ -24,15 +24,13 @@ O programa funciona pela linha de comando, da seguinte maneira:
 Onde `<arquivo>` é o nome de um arquivo de texto contendo os caracteres que
 serão reproduzidos como música (é um argumento obrigatório), e `<bpm_padrão>`
 é um argumento opcional (um inteiro) que será usado como o valor de *bpm*
-inicial da música.
+inicial da música. O *bpm* padrão é 120.
 
-## Significado de cada caractere
+## Especificação
 
-Todas as letras serão interpretadas como letras maiúsculas.
+### Caracteres
 
-### Notas
-
-Tanto `A` quanto `E` incluem as versões com acentos.
+Todas as letras serão interpretadas como letras maiúsculas. As vogais incluem as versões com acentos, o `Ç` será interpretado como um `C`.
 
 | Caractere | Significado |
 |:---------:|:-----------:|
@@ -43,11 +41,6 @@ Tanto `A` quanto `E` incluem as versões com acentos.
 | E | Mi |
 | F | Fá |
 | G | Sol |
-
-### Relacionados às notas
-
-| Caractere | Significado |
-|:---------:|:-----------:|
 | # | Próxima nota será sustenido |
 | ! | Aumenta um pouco o ataque |
 | ; | Diminui um pouco o ataque |
@@ -55,28 +48,17 @@ Tanto `A` quanto `E` incluem as versões com acentos.
 | % | Diminui bastante o ataque |
 | " | Aumenta um pouco a duração |
 | ' | Diminui um pouco a duração |
-
-### Oitavas
-
-| Caractere | Significado |
-|:---------:|:-----------:|
 | O | Aumenta uma oitava |
 | I | Diminui uma oitava |
 | 0-9 | Define a nova oitava |
 | ? ou . | Volta para a oitava padrão (5<sup>_a_</sup>) |
-
-### BPM
-
-| Caractere | Significado |
-|:---------:|:-----------:|
 | < | Diminui BPM em 10 |
 | > | Aumenta BPM em 10 |
 | { | Diminui BPM em 100 |
 | } | Aumenta BPM em 100 |
-
-### Outras
-
-| Caractere | Significado |
-|:---------:|:-----------:|
 | Espaço | Silêncio |
 | Nova linha | Pula para o próximo instrumento |
+
+#### Demais caracteres
+
+Todos os demais caracteres serão ignorados.

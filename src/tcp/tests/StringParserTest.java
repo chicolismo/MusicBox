@@ -21,23 +21,23 @@ public class StringParserTest {
 
         p = new StringParser();
         note = p.parse("#aboóc!<if2g");
-        assertEquals("T120 A#5 B5 C7 T110 F6a10 G2a10", note);
+        assertEquals("T120 A#5 B5 C7 T110 F6a74 G2a74", note);
 
         p = new StringParser();
         note = p.parse("#aboóc!!<if;2g");
-        assertEquals("T120 A#5 B5 C7 T110 F6a20 G2a10", note);
+        assertEquals("T120 A#5 B5 C7 T110 F6a84 G2a74", note);
 
         p = new StringParser();
         note = p.parse("#ab$oóc!!<if;2g");
-        assertEquals("T120 A#5 B5 C7a50 T110 F6a70 G2a60", note);
+        assertEquals("T120 A#5 B5 C7a114 T110 F6a127 G2a117", note);
 
         p = new StringParser();
         note = p.parse("#ab$oóc!!<if;2g$2g7%g");
-        assertEquals("T120 A#5 B5 C7a50 T110 F6a70 G2a60 G2a110 G7a60", note);
+        assertEquals("T120 A#5 B5 C7a114 T110 F6a127 G2a117 G2a127 G7a77", note);
 
         p = new StringParser();
         note = p.parse("#\"ab\'$oóc!!<if\"\";2g$\'2g7%\'g");
-        assertEquals("T120 A#5h B5h C7a50 T110 F6a70 G2wa60 G2ha110 G7a60", note);
+        assertEquals("T120 A#5h B5h C7a114 T110 F6a127 G2wa117 G2ha127 G7a77", note);
 
         p = new StringParser();
         note = p.parse("7a?a");

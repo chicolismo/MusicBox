@@ -1,5 +1,8 @@
 package tcp;
 
+/**
+ * Controla o tempo (BPM) da música.
+ */
 public class Tempo {
     public static final int DEFAULT_TEMPO = 120;
     public static final int SMALL_INCREMENT = 10;

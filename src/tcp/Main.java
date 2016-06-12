@@ -2,15 +2,37 @@ package tcp;
 
 import org.jfugue.player.Player;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+
 public class Main {
     public static void main(String[] args) {
-        Player p = new Player();
+        String fileName = null;
 
-        StringParser parser = new StringParser();
-        //String input = "C5a50";
-        //String output = parser.parse(input);
-        String output = "C5wwa90d127";
-        System.out.println(output);
-        p.play(output);
+        if (args.length > 0) {
+            fileName = args[0];
+        } else {
+            System.out.println("É preciso fornecer o nome do arquivo a ser lido.");
+            System.exit(1);
+        }
+
+        Player p = new Player();
+        StringParser parser;
+        if (args.length > 1) {
+            parser = new StringParser(Integer.parseInt(args[1]));
+        } else {
+            parser = new StringParser();
+        }
+
+        try {
+            FileReader reader = new FileReader(fileName);
+            BufferedReader buffer = new BufferedReader(reader);
+            String output = parser.parse(buffer);
+            reader.close();
+            buffer.close();
+            p.play(output);
+        } catch (Exception e) {
+            System.err.println(String.format("Ocorreu um erro ao tentar ler o arquivo %s", fileName));
+        }
     }
 }

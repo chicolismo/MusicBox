@@ -1,5 +1,7 @@
 package tcp;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.Locale;
 
 public class StringParser {
@@ -7,6 +9,11 @@ public class StringParser {
 
     public StringParser() {
         music = new Music();
+    }
+
+    public StringParser(int bpm) {
+        this();
+        this.music.getTempo().set(bpm);
     }
 
     public Music getMusic() {
@@ -31,6 +38,9 @@ public class StringParser {
             case 'G':
                 instruction = makeNote(String.valueOf(c));
                 break;
+
+            case 'Ç':
+                instruction = makeNote("C");
 
             // Para as versões de "A" com acentos, tranformar em "A".
             case 'Á':
@@ -101,7 +111,7 @@ public class StringParser {
                 break;
 
             case ' ':
-                // TODO: Acrescentar uma pausa em caso de espaço em branco.
+                instruction = "A0a0"; // Nota que representará uma pausa (silêncio)
                 break;
 
             case '\n':
@@ -138,6 +148,15 @@ public class StringParser {
         }
 
         return instruction;
+    }
+
+    public String parse(BufferedReader buffer) throws IOException {
+        StringBuilder result = new StringBuilder();
+        String line = null;
+        while ((line = buffer.readLine()) != null) {
+            result.append(parse(line));
+        }
+        return result.toString().trim();
     }
 
     public String parse(String raw) {
