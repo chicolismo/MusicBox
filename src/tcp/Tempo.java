@@ -1,38 +1,29 @@
 package tcp;
 
-/**
- * Created by chico on 30/05/16.
- */
 public class Tempo {
-    private static final int defaultTempo = 120;
+    public static final int DEFAULT_TEMPO = 120;
+    public static final int SMALL_INCREMENT = 10;
+    public static final int BIG_INCREMENT = 100;
 
     private int value;
     private boolean valueHasChanged;
 
     public Tempo() {
-        value = defaultTempo;
+        value = DEFAULT_TEMPO;
         valueHasChanged = false;
     }
 
-    public void increase(int amount) {
-        if (amount != 0) {
-            valueHasChanged = true;
-        }
-        value += amount;
+    public void increment(int amount) {
+        set(value + amount);
     }
 
-    public void decrease(int amount) {
-        if (amount != 0 && value > 1) {
-            valueHasChanged = true;
-        }
-        value -= amount;
-        if (value < 1) {
-            value = 1;
-        }
+    public void decrement(int amount) {
+        set(value - amount);
     }
 
     public void set(int newTempo) {
-        if (newTempo > 0) {
+        if (newTempo > 0 && newTempo != value) {
+            valueHasChanged = true;
             value = newTempo;
         }
     }
@@ -46,11 +37,11 @@ public class Tempo {
         return "T" + String.valueOf(get());
     }
 
-    public boolean hasChanged() {
+    public boolean isChanged() {
         return valueHasChanged;
     }
 
-    public void setUnchanged() {
-        valueHasChanged = false;
+    public void setChanged(boolean value) {
+        valueHasChanged = value;
     }
 }

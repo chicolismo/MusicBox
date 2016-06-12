@@ -5,11 +5,9 @@ import org.junit.Before;
 import org.junit.Test;
 import tcp.Sharp;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-/**
- * Created by chico on 30/05/16.
- */
 public class SharpTest {
     private Sharp s;
 

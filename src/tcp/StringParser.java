@@ -1,51 +1,23 @@
 package tcp;
 
 import java.util.Locale;
-import java.util.Arrays;
-import java.util.HashSet;
 
-/**
- * Created by chico on 27/05/16.
- */
 public class StringParser {
-
-    private Note note;
-    private Octave octave;
-    private Tempo tempo;
-    private Sharp sharp;
+    private Music music;
 
     public StringParser() {
-        note = new Note();
-        tempo = new Tempo();
-        octave = new Octave();
-        sharp = new Sharp();
+        music = new Music();
+    }
+
+    public Music getMusic() {
+        return music;
     }
 
     public String makeNote(String str) {
-        return addModifiers(note.make(str, sharp, octave));
+        return music.makeNote(str);
     }
 
-    public String addModifiers(String str) {
-        if (tempo.hasChanged()) {
-            tempo.setUnchanged();
-            str = tempo.toString() + " " + str;
-        }
-        return str;
-    }
-
-    public void changeSharp(boolean value) {
-        if (value) {
-            sharp.setActive();
-        } else {
-            sharp.setInactive();
-        }
-    }
-
-    public void changeOctave(int value) {
-        octave.set(value);
-    }
-
-    public String parse(char c) {
+    public String parseChar(char c) {
         String instruction = "";
 
         switch (c) {
@@ -79,35 +51,35 @@ public class StringParser {
             case 'Ó':
             case 'Ô':
             case 'Õ':
-                octave.increase();
+                music.incrementOctave();
                 break;
 
             // Diminui uma oitava
             case 'I':
             case 'Í':
-                octave.decrease();
+                music.decrementOctave();
                 break;
 
             // Mudanças de BMP
-            case '<': // Aumenta BMP em 10
-                tempo.decrease(10);
+            case '<': // Diminui um pouco o BMP
+                music.decrementTempo(Tempo.SMALL_INCREMENT);
                 break;
 
-            case '>': // Diminui BMP em 10
-                tempo.increase(10);
+            case '>': // Aumenta um pouco o BMP
+                music.incrementTempo(Tempo.SMALL_INCREMENT);
                 break;
 
-            case '{': // Aumenta BMP em 100
-                tempo.decrease(100);
+            case '{': // Diminui bastante o BMP
+                music.decrementTempo(Tempo.BIG_INCREMENT);
                 break;
 
-            case '}': // Diminui BMP em 100
-                tempo.increase(100);
+            case '}': // Aumenta bastante o BMP
+                music.incrementTempo(Tempo.BIG_INCREMENT);
                 break;
 
             // Insere um sustenido na próxima nota
             case '#':
-                changeSharp(true);
+                music.setSharp(true);
                 break;
 
             // Muda para a oitava selecionada
@@ -120,13 +92,50 @@ public class StringParser {
             case '6':
             case '7':
             case '8':
-                changeOctave(Character.getNumericValue(c));
+                music.changeOctave(Character.getNumericValue(c));
+                break;
+
+            case '?':
+            case '.':
+                music.changeOctave(Octave.DEFAULT_OCTAVE);
                 break;
 
             case ' ':
+                // TODO: Acrescentar uma pausa em caso de espaço em branco.
+                break;
+
             case '\n':
+                music.nextInstrument();
+                break;
+
+            // TODO: Mudar o instrumento e testar.
             case '\r':
                 instruction = " ";
+                break;
+
+            case '!':
+                music.incrementAttack(Attack.SMALL_INCREMENT);
+                break;
+
+            case ';':
+                music.decrementAttack(Attack.SMALL_INCREMENT);
+                break;
+
+            case '$':
+                music.incrementAttack(Attack.BIG_INCREMENT);
+                break;
+
+            case '%':
+                music.decrementAttack(Attack.BIG_INCREMENT);
+                break;
+
+            // TODO: Implementar a duração
+            case '\"':
+                music.incrementDuration();
+                break;
+
+            case '\'':
+                music.decrementDuration();
                 break;
         }
 
@@ -137,7 +146,7 @@ public class StringParser {
         StringBuilder result = new StringBuilder();
 
         // Começa com o tempo padrão.
-        result.append(tempo.toString()).append(" ");
+        result.append(music.getTempo().toString()).append(" ");
 
         // Converte as letras para maiúsculas
         String uppercase = raw.toUpperCase(new Locale("pt", "BR"));
@@ -146,7 +155,7 @@ public class StringParser {
         // pois JFugue espera os tokens separados por espaço.
         String parsedString = null;
         for (char c : uppercase.toCharArray()) {
-            parsedString = parse(c);
+            parsedString = parseChar(c);
             // Só incluir se o resultado não for vazio.
             if (!parsedString.isEmpty()) {
                 result.append(parsedString).append(" ");

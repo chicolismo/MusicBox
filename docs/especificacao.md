@@ -1,5 +1,18 @@
 # Especificação
 
+## Lista de requisitos
+
+* O programa de ser capaz de receber o nome de um arquivo de texto.
+
+* Tendo um nome de arquivo, o programa deverá ser capaz de lê-lo para
+reproduzir a música.
+
+* Além disso, deve ser possível informar o BPM padrão da música como um
+argumento opcional na linha de comando.
+
+* O programa deve ser capaz de traduzir os caracteres lidos para as strings
+necessárias para reproduzir a música, conforme a API do JFugue.
+
 ## Modo de uso
 
 O programa funciona pela linha de comando, da seguinte maneira:
@@ -8,7 +21,10 @@ O programa funciona pela linha de comando, da seguinte maneira:
     java -jar programa.jar <arquivo> [<bpm_padrão>]
 ```
 
-Onde `<arquivo>` é o nome de um arquivo de texto contendo os caracteres que serão reproduzidos como música (é um argumento obrigatório), e `<bpm_padrão>` é um argumento opcional (um inteiro) que será usado como o valor de *bpm* inicial da música.
+Onde `<arquivo>` é o nome de um arquivo de texto contendo os caracteres que
+serão reproduzidos como música (é um argumento obrigatório), e `<bpm_padrão>`
+é um argumento opcional (um inteiro) que será usado como o valor de *bpm*
+inicial da música.
 
 ## Significado de cada caractere
 
@@ -33,8 +49,12 @@ Tanto `A` quanto `E` incluem as versões com acentos.
 | Caractere | Significado |
 |:---------:|:-----------:|
 | # | Próxima nota será sustenido |
-| ! | Aumenta a força da próxima nota |
-| ; | Diminui a força da próxima nota |
+| ! | Aumenta um pouco o ataque |
+| ; | Diminui um pouco o ataque |
+| $ | Aumenta bastante o ataque |
+| % | Diminui bastante o ataque |
+| " | Aumenta um pouco a duração |
+| ' | Diminui um pouco a duração |
 
 ### Oitavas
 

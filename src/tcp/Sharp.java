@@ -1,8 +1,5 @@
 package tcp;
 
-/**
- * Created by chico on 30/05/16.
- */
 public class Sharp {
     private boolean active;
 
