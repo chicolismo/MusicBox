@@ -109,17 +109,21 @@ public class Music {
      * @return A nota acrescida de possíveis alterações, pronta para ser executada.
      */
     private String addModifiers(String str) {
+        if (str != "") {
+            str = String.format("%s%s%s", str, getDuration().toString(), getAttack().toString());
+        }
+
         if (tempo.isChanged()) {
             tempo.setChanged(false);
             str = tempo.toString() + " " + str;
-
         }
 
         if (instrument.isChanged()) {
             str = instrument.toString() + " " + str;
             instrument.setChanged(false);
         }
-        return String.format("%s%s%s", str, getDuration().toString(), getAttack().toString());
+
+        return str;
     }
 
     /* Oitava */

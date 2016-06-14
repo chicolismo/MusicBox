@@ -24,7 +24,7 @@ public class StringParser {
         return music.makeNote(str);
     }
 
-    public String parseChar(char c) {
+    public String parseLetter(char c) {
         String instruction = "";
 
         switch (c) {
@@ -118,10 +118,6 @@ public class StringParser {
                 music.nextInstrument();
                 break;
 
-            case '\r':
-                music.nextInstrument();
-                break;
-
             case '!':
                 music.incrementAttack(Attack.SMALL_INCREMENT);
                 break;
@@ -150,13 +146,140 @@ public class StringParser {
         return instruction;
     }
 
-    public String parse(BufferedReader buffer) throws IOException {
-        StringBuilder result = new StringBuilder();
-        String line = null;
-        while ((line = buffer.readLine()) != null) {
-            result.append(parse(line));
+    public String parseLetter(String letter) {
+        String instruction = "";
+
+        switch (letter) {
+            // Se a letra for de uma das notas, inserir a nota.
+            case "A":
+            case "B":
+            case "C":
+            case "D":
+            case "E":
+            case "F":
+            case "G":
+                instruction = makeNote(letter);
+                break;
+
+            case "Ç":
+                instruction = makeNote("C");
+                break;
+
+            // Para as versões de "A" com acentos, tranformar em "A".
+            case "Á":
+            case "À":
+            case "Ã":
+            case "Â":
+                instruction = makeNote("A");
+                break;
+
+            // Para as versões de "E" com acentos, tranformar em "E".
+            case "É":
+            case "Ê":
+                instruction = makeNote("E");
+                break;
+
+            // Aumenta uma oitava
+            case "O":
+            case "Ó":
+            case "Ô":
+            case "Õ":
+                music.incrementOctave();
+                break;
+
+            // Diminui uma oitava
+            case "I":
+            case "Í":
+                music.decrementOctave();
+                break;
+
+            // Mudanças de BMP
+            case "<": // Diminui um pouco o BMP
+                music.decrementTempo(Tempo.SMALL_INCREMENT);
+                break;
+
+            case ">": // Aumenta um pouco o BMP
+                music.incrementTempo(Tempo.SMALL_INCREMENT);
+                break;
+
+            case "{": // Diminui bastante o BMP
+                music.decrementTempo(Tempo.BIG_INCREMENT);
+                break;
+
+            case "}": // Aumenta bastante o BMP
+                music.incrementTempo(Tempo.BIG_INCREMENT);
+                break;
+
+            // Insere um sustenido na próxima nota
+            case "#":
+                music.setSharp(true);
+                break;
+
+            // Muda para a oitava selecionada
+            case "0":
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+            case "6":
+            case "7":
+            case "8":
+                music.changeOctave(Integer.parseInt(letter));
+                break;
+
+            case "?":
+            case ".":
+                music.changeOctave(Octave.DEFAULT_OCTAVE);
+                break;
+
+            case "(":
+            case ")":
+                break;
+
+            case " ":
+                //instruction = "A0a0"; // Nota que representará uma pausa (silêncio)
+                instruction = "R";
+                break;
+
+            case "\n":
+                music.nextInstrument();
+                break;
+
+            case "!":
+                music.incrementAttack(Attack.SMALL_INCREMENT);
+                break;
+
+            case ";":
+                music.decrementAttack(Attack.SMALL_INCREMENT);
+                break;
+
+            case "$":
+                music.incrementAttack(Attack.BIG_INCREMENT);
+                break;
+
+            case "%":
+                music.decrementAttack(Attack.BIG_INCREMENT);
+                break;
+
+            case "\"":
+                music.incrementDuration();
+                break;
+
+            case "\'":
+                music.decrementDuration();
+                break;
         }
-        return result.toString().trim();
+        return instruction;
+    }
+
+    public String parse(BufferedReader buffer) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        String line;
+        while ((line = buffer.readLine()) != null) {
+            builder.append(line).append("\n");
+        }
+        return parse(builder.toString().trim());
     }
 
     public String parse(String raw) {
@@ -171,13 +294,24 @@ public class StringParser {
         // Para cada caractere, incluir seu resultado na string seguido de um espaço,
         // pois JFugue espera os tokens separados por espaço.
         String parsedString = null;
+
+        int length = uppercase.length();
+        for (int i = 0; i < length; ++i) {
+            parsedString = parseLetter(uppercase.substring(i, i + 1));
+            if (!parsedString.isEmpty()) {
+                result.append(parsedString).append(" ");
+            }
+        }
+
+        /*
         for (char c : uppercase.toCharArray()) {
-            parsedString = parseChar(c);
+            parsedString = parseLetter(c);
             // Só incluir se o resultado não for vazio.
             if (!parsedString.isEmpty()) {
                 result.append(parsedString).append(" ");
             }
         }
+        */
 
         return result.toString().trim();
     }
